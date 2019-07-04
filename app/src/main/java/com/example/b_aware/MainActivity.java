@@ -2,13 +2,118 @@ package com.example.b_aware;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.IntentSender;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.database.DatabaseErrorHandler;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.UserHandle;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
+import android.view.Display;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import android.Manifest;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
+
+    public Switch EnableListenSwitch;
+    public TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        EnableListenSwitch = (Switch)findViewById(R.id.EnableListen);
+        textView = (TextView) findViewById(R.id.textView);
+        EnableListenSwitch.setOnCheckedChangeListener(this);
+
     }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b)
+    {
+        if(EnableListenSwitch.isChecked()){
+            /*
+                Call a background service.
+             */
+
+            Intent listeningIntent = new Intent(this, IListeningService.class);
+            startService(listeningIntent);
+            //textView.setText("MAYANK");
+        }
+        else
+        {
+            Intent listeningIntent = new Intent(this, IListeningService.class);
+            stopService(listeningIntent);
+            textView.setText("XYZ");
+        }
+
+    }
+
+//    private boolean requestPermission(List<String> perm)
+//    {
+//        // String[] permissions={Manifest.permission.READ_PHONE_STATE,Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+//        String[] listReq=new String[perm.size()];
+//        listReq=perm.toArray(listReq);
+//        for(String permissions:listReq) {
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,permissions)) {
+//                Toast.makeText(getApplicationContext(), "Phone Permissions needed for " + permissions, Toast.LENGTH_LONG);
+//            }
+//        }
+//        ActivityCompat.requestPermissions(MainActivity.this, listReq, 1);
+//
+//        return false;
+//    }
+//
+//    private boolean checkPermission()
+//    {
+//        int i=0;
+//        String[] perm={Manifest.permission.READ_PHONE_STATE,Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_CONTACTS};
+//        List<String> reqPerm=new ArrayList<>();
+//        for(String permis:perm) {
+//            int resultPhone = ContextCompat.checkSelfPermission(MainActivity.this,permis);
+//            if(resultPhone== PackageManager.PERMISSION_GRANTED)
+//                i++;
+//            else {
+//                reqPerm.add(permis);
+//            }
+//        }
+//        if(i==5)
+//            return true;
+//        else
+//            return requestPermission(reqPerm);
+//    }
 }
