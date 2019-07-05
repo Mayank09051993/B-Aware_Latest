@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         setContentView(R.layout.activity_main);
 
         EnableListenSwitch = (Switch)findViewById(R.id.EnableListen);
-        textView = (TextView) findViewById(R.id.textView);
         EnableListenSwitch.setOnCheckedChangeListener(this);
 
     }
@@ -72,48 +71,12 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
             Intent listeningIntent = new Intent(this, IListeningService.class);
             startService(listeningIntent);
-            //textView.setText("MAYANK");
         }
         else
         {
             Intent listeningIntent = new Intent(this, IListeningService.class);
             stopService(listeningIntent);
-            textView.setText("XYZ");
         }
 
     }
-
-//    private boolean requestPermission(List<String> perm)
-//    {
-//        // String[] permissions={Manifest.permission.READ_PHONE_STATE,Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
-//        String[] listReq=new String[perm.size()];
-//        listReq=perm.toArray(listReq);
-//        for(String permissions:listReq) {
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,permissions)) {
-//                Toast.makeText(getApplicationContext(), "Phone Permissions needed for " + permissions, Toast.LENGTH_LONG);
-//            }
-//        }
-//        ActivityCompat.requestPermissions(MainActivity.this, listReq, 1);
-//
-//        return false;
-//    }
-//
-//    private boolean checkPermission()
-//    {
-//        int i=0;
-//        String[] perm={Manifest.permission.READ_PHONE_STATE,Manifest.permission.RECORD_AUDIO,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_CONTACTS};
-//        List<String> reqPerm=new ArrayList<>();
-//        for(String permis:perm) {
-//            int resultPhone = ContextCompat.checkSelfPermission(MainActivity.this,permis);
-//            if(resultPhone== PackageManager.PERMISSION_GRANTED)
-//                i++;
-//            else {
-//                reqPerm.add(permis);
-//            }
-//        }
-//        if(i==5)
-//            return true;
-//        else
-//            return requestPermission(reqPerm);
-//    }
 }

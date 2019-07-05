@@ -4,15 +4,15 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
+import android.os.Environment;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
+import java.io.File;
 
 import androidx.annotation.Nullable;
 
 import java.io.IOException;
-import java.util.Date;
 
 public class IListeningService extends Service {
     public IListeningService() {
@@ -34,48 +34,47 @@ public class IListeningService extends Service {
         /*
         What To Do When Service Is Called.
          */
-        try {
+        try
+        {
+            File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_ALARMS);
             mediaRecorder = new MediaRecorder();
             mediaRecorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
+            mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+            mediaRecorder.setOutputFile(file.getAbsolutePath() + "/" + "Mayank_rec.3gp");
+            mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
             TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-            telephonyManager.listen(new PhoneStateListener() {
+            telephonyManager.listen(new PhoneStateListener()
+            {
                 @Override
-                public void onCallStateChanged(int state, String incomingPhoneNumber) {
-
+                public void onCallStateChanged(int state, String incomingPhoneNumber)
+                {
                     if (state == TelephonyManager.CALL_STATE_IDLE && mediaRecorder == null) {
                         mediaRecorder.stop();
                         mediaRecorder.reset();
                         mediaRecorder.release();
                         recordedState = false;
                         stopSelf();
-                    } else if (state == TelephonyManager.CALL_STATE_OFFHOOK) {
-                        try {
+                    } else if (state == TelephonyManager.CALL_STATE_RINGING || state == TelephonyManager.CALL_STATE_OFFHOOK)
+                    {
+                        try
+                        {
                             mediaRecorder.prepare();
-                        } catch (IOException ex) {
+                        }
+                        catch (IOException ex)
+                        {
                             ex.printStackTrace();
                         }
-
                         mediaRecorder.start();
                         recordedState = true;
                     }
-
                 }
             }, PhoneStateListener.LISTEN_CALL_STATE);
-        } catch (IllegalStateException ex) {
-
         }
-
-
+        catch (IllegalStateException ex)
+        {
+            ex.printStackTrace();
+        }
         return START_STICKY;
-    }
-
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-
-        Intent restartServiceIntent = new Intent(getApplicationContext(), this.getClass());
-        restartServiceIntent.setPackage(getPackageName());
-        startService(restartServiceIntent);
-        super.onTaskRemoved(rootIntent);
     }
 }

@@ -10,17 +10,18 @@
         android:id="@+id/EnableListen"
         android:layout_width="215dp"
         android:layout_height="79dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="56dp"
-        android:text="Enable Listen"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="540dp"
+        android:text="Protect Me"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="121dp"
-        tools:layout_editor_absoluteY="252dp" />
+        app:srcCompat="@drawable/app_logo"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-26dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
