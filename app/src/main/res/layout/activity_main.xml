@@ -7,23 +7,9 @@
     android:padding="12dp"
     tools:context=".MainActivity">
 
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:hint="You will see input here"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-
-    <ImageButton
-        android:id="@+id/button"
+    <Switch
+        android:id="@+id/ProtectMe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/button_background" />
-
+        android:text="Switch" />
 </RelativeLayout>

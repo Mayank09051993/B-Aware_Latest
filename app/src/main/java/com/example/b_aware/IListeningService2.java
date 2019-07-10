@@ -20,16 +20,14 @@ import java.util.Locale;
 public class IListeningService2 extends Service {
     final SpeechRecognizer mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
     final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-    // final TelephonyManager telephonyManager;
     boolean isListening = false;
 
     public IListeningService2() {
-        // telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
                 Locale.getDefault());
-        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, Locale.getDefault());
+        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true);
 
         mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
@@ -107,7 +105,6 @@ public class IListeningService2 extends Service {
             Log.i("TAG", "Stopped Service");
         }
         return  START_STICKY;
-        //return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
