@@ -23,6 +23,7 @@ public class ListeningService extends Service {
     private boolean startAnalyzing = false;
     private RiskCalculationEngine riskCalculationEngine;
     private UUID riskCalculationSessionId;
+    private double FRAUD_CALL_SCORE_LIMIT = 7.5;
 
     public ListeningService() {
     }
@@ -38,11 +39,12 @@ public class ListeningService extends Service {
     public int onStartCommand(final Intent intent, int flags, int startId) {
         try
         {
+            Log.v("ListeningService", "onStartCommand");
+
             setupSpeechRecognition();
 
             riskCalculationEngine = new RiskCalculationEngine(getApplicationContext());
 
-            Log.v("onStart", "ServiceStarted");
 
             TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
             telephonyManager.listen(new PhoneStateListener()
@@ -123,8 +125,10 @@ public class ListeningService extends Service {
                     ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                     ArrayList<String> unstableData = bundle.getStringArrayList("android.speech.extra.UNSTABLE_TEXT");
                     double score = riskCalculationEngine.calculateRisk(riskCalculationSessionId, data.get(0) + unstableData.get(0));
-                    if(score > 0.7){
-                        FraudUserAlert.alertUser();
+
+                    if(score > FRAUD_CALL_SCORE_LIMIT){
+                        FraudUserAlert.alertUser(getApplicationContext());
+                        startAnalyzing = false;
                     }
                 }
             }
