@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".IListeningService2"
+            android:name=".ListeningService"
             android:enabled="true"
             android:exported="true" />
 

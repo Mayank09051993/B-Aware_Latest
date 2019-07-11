@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">B-Aware</string>
+    <string name="record_audio_is_required">We will only use the Record Audio Permission in order to use the Speech to Text Feature</string>
 </resources>
