@@ -124,6 +124,7 @@ public class ListeningService extends Service {
                 if(startAnalyzing){
                     ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                     ArrayList<String> unstableData = bundle.getStringArrayList("android.speech.extra.UNSTABLE_TEXT");
+                    Log.i("Partial",data.get(0) + unstableData.get(0));
                     double score = riskCalculationEngine.calculateRisk(riskCalculationSessionId, data.get(0) + unstableData.get(0));
 
                     if(score > FRAUD_CALL_SCORE_LIMIT){

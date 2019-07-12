@@ -36,11 +36,12 @@ public class FraudUserAlert {
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, intent, 0);
         Notification notification = new Notification.Builder(context)
                 .setContentTitle("Fraud Call Alert.")
-                .setContentText("Sensitive Information Asked.").setSmallIcon(R.drawable.baware_icon)
+                .setContentText("Sensitive Information Asked.")
+                .setSmallIcon(R.drawable.baware_icon)
                 .setContentIntent(pIntent)
                 .build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        //notification.flags |= Notification.FLAG_AUTO_CANCEL;
 
         notificationManager.notify(0, notification);
 

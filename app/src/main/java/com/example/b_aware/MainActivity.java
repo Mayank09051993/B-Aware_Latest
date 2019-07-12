@@ -1,17 +1,9 @@
 package com.example.b_aware;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.Manifest;
-import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 

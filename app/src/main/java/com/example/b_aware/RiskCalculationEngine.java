@@ -42,7 +42,7 @@ public class RiskCalculationEngine {
         if(lastPhrase == null || lastPhrase.isEmpty()){
             effectivePhrase = phrase;
         }
-        String[] words = phrase.split(" ");
+        String[] words = effectivePhrase.split(" ");
         for (int i = 0; i < words.length; i++) {
             if(hashtable.get(words[i]) != null){
                 result = result + hashtable.get(phrase).Rank;
