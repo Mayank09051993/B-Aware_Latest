@@ -22,6 +22,7 @@ public class ListeningService extends Service {
     private Intent speechRecognizerIntent;
     private boolean startAnalyzing = false;
     private RiskCalculationEngine riskCalculationEngine;
+    private FraudUserAlert fraudUserAlert;
     private UUID riskCalculationSessionId;
     private double FRAUD_CALL_SCORE_LIMIT = 7.5;
 
@@ -44,7 +45,7 @@ public class ListeningService extends Service {
             setupSpeechRecognition();
 
             riskCalculationEngine = new RiskCalculationEngine(getApplicationContext());
-
+            fraudUserAlert = new FraudUserAlert(getApplicationContext());
 
             TelephonyManager telephonyManager = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
             telephonyManager.listen(new PhoneStateListener()
@@ -128,7 +129,7 @@ public class ListeningService extends Service {
                     double score = riskCalculationEngine.calculateRisk(riskCalculationSessionId, data.get(0) + unstableData.get(0));
 
                     if(score > FRAUD_CALL_SCORE_LIMIT){
-                        FraudUserAlert.alertUser(getApplicationContext());
+                        fraudUserAlert.alertUser();
                         startAnalyzing = false;
                     }
                 }
