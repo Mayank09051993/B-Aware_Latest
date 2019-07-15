@@ -34,13 +34,20 @@ public class RiskCalculationEngine {
     }
     public double calculateRisk(UUID sessionId, String phrase){
 
-
         Log.v("RiskCalculationEngine", phrase);
+
+        if(phrase == null || phrase.isEmpty())
+        {
+            return 0.0;
+        }
 
         double result = 0.0;
         String effectivePhrase = "";
         if(lastPhrase == null || lastPhrase.isEmpty()){
             effectivePhrase = phrase;
+        }
+        else {
+            effectivePhrase = lastPhrase.substring(phrase.indexOf(lastPhrase)+ lastPhrase.length()-1);
         }
         String[] words = effectivePhrase.split(" ");
         for (int i = 0; i < words.length; i++) {
@@ -48,6 +55,7 @@ public class RiskCalculationEngine {
                 result = result + hashtable.get(phrase).Rank;
             }
         }
-        return 8.2;
+        lastPhrase = effectivePhrase;
+        return result;
     }
 }

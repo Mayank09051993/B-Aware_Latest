@@ -24,7 +24,7 @@ public class ListeningService extends Service {
     private RiskCalculationEngine riskCalculationEngine;
     private FraudUserAlert fraudUserAlert;
     private UUID riskCalculationSessionId;
-    private double FRAUD_CALL_SCORE_LIMIT = 7.5;
+    private double FRAUD_CALL_SCORE_LIMIT = 0.0;
 
     public ListeningService() {
     }
