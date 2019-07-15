@@ -24,7 +24,7 @@ public class ListeningService extends Service {
     private RiskCalculationEngine riskCalculationEngine;
     private FraudUserAlert fraudUserAlert;
     private UUID riskCalculationSessionId;
-    private double FRAUD_CALL_SCORE_LIMIT = 0.0;
+    private double FRAUD_CALL_SCORE_LIMIT = 10.0;
 
     public ListeningService() {
     }
@@ -127,7 +127,7 @@ public class ListeningService extends Service {
                     ArrayList<String> unstableData = bundle.getStringArrayList("android.speech.extra.UNSTABLE_TEXT");
                     Log.i("Partial",data.get(0) + unstableData.get(0));
                     double score = riskCalculationEngine.calculateRisk(riskCalculationSessionId, data.get(0) + unstableData.get(0));
-
+                    Log.i("Score",Double.toString(score));
                     if(score > FRAUD_CALL_SCORE_LIMIT){
                         fraudUserAlert.alertUser();
                         startAnalyzing = false;

@@ -14,19 +14,11 @@ public class RiskCalculationEngine {
 
     public RiskCalculationEngine(Context context){
         hashtable = new Hashtable<>();
-//        AssetManager am = context.getAssets();
-//        try {
-//            String[] files = am.list("Files");
-//            Log.e(TAG, files[0]);
-//        }
-//        catch (IOException ex){
-//            Log.e(TAG, ex.getMessage());
-//        }
         hashtable.put("CVV", new RiskyWords("CVV", 10));
-        hashtable.put("CVV", new RiskyWords("Card", 8));
-        hashtable.put("CVV", new RiskyWords("OTP", 10));
-        hashtable.put("CVV", new RiskyWords("Mobile", 5));
-        hashtable.put("CVV", new RiskyWords("Number", 3));
+        hashtable.put("CARD", new RiskyWords("CARD", 8));
+        hashtable.put("OTP", new RiskyWords("OTP", 10));
+        hashtable.put("MOBILE", new RiskyWords("MOBILE", 5));
+        hashtable.put("NUMBER", new RiskyWords("NUMBER", 3));
     }
     public UUID startSession(){
         sessionId = UUID.randomUUID();
@@ -35,7 +27,6 @@ public class RiskCalculationEngine {
     public double calculateRisk(UUID sessionId, String phrase){
 
         Log.v("RiskCalculationEngine", phrase);
-
         if(phrase == null || phrase.isEmpty())
         {
             return 0.0;
@@ -44,18 +35,26 @@ public class RiskCalculationEngine {
         double result = 0.0;
         String effectivePhrase = "";
         if(lastPhrase == null || lastPhrase.isEmpty()){
-            effectivePhrase = phrase;
+            effectivePhrase = phrase.toUpperCase();
         }
-        else {
-            effectivePhrase = lastPhrase.substring(phrase.indexOf(lastPhrase)+ lastPhrase.length()-1);
-        }
-        String[] words = effectivePhrase.split(" ");
-        for (int i = 0; i < words.length; i++) {
-            if(hashtable.get(words[i]) != null){
-                result = result + hashtable.get(phrase).Rank;
+        else
+        {
+            if(effectivePhrase.toUpperCase().contains(lastPhrase.toUpperCase()))
+            {
+                effectivePhrase = phrase.toUpperCase().substring(phrase.indexOf(lastPhrase.toUpperCase())+ lastPhrase.length()-1);
+            }
+            else
+            {
+                effectivePhrase = phrase.toUpperCase();
             }
         }
-        lastPhrase = effectivePhrase;
+        String[] words = effectivePhrase.toUpperCase().split(" ");
+        for (int i = 0; i < words.length; i++) {
+            if(hashtable.get(words[i]) != null){
+                result = result + hashtable.get(words[i]).Rank;
+            }
+        }
+        lastPhrase = effectivePhrase.toUpperCase();
         return result;
     }
 }
