@@ -11,6 +11,7 @@ public class RiskCalculationEngine {
     private UUID sessionId;
     private Hashtable<String, RiskyWords> hashtable;
     private String lastPhrase;
+    private double Total = 0.0;
 
     public RiskCalculationEngine(Context context){
         hashtable = new Hashtable<>();
@@ -55,6 +56,7 @@ public class RiskCalculationEngine {
             }
         }
         lastPhrase = effectivePhrase.toUpperCase();
-        return result;
+        Total = Total + result;
+        return Total;
     }
 }
